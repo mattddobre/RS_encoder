@@ -1,0 +1,29 @@
+import "multiply.act";
+
+defproc source (chan!(int<4>) X)
+{
+  //int<4> i;
+  chp {
+	X!1; log("sent ", 1);
+	X!2; log("sent ", 2);
+	X!15; log("sent ", 15);
+	X!5; log("sent ", 5);
+	X!0; log("sent", 0)
+  }
+}
+
+defproc sink (chan?(int<4>) X)
+{
+  int<4> v;
+  chp {
+    *[ X?v; log ("Received value: ", v) ]
+  }
+}
+
+defproc test()
+{
+   source src_A;
+   source src_B;
+   sink snk;
+   multiply m(src_A.X, src_B.X, snk.X);
+}

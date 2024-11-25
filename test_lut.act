@@ -1,0 +1,51 @@
+import "lut.act";
+
+defproc source_A (chan!(int<4>) X)
+{
+  //int<4> i;
+  chp {
+	X!7; log("sent ", 1);
+	X!2; log("sent ", 2);
+	X!15; log("sent ", 15);
+	X!5; log("sent ", 5)
+  }
+}
+
+defproc source_B (chan!(int<4>) X)
+{
+  //int<4> i;
+  chp {
+	X!1; log("sent ", 1);
+	X!4; log("sent ", 4);
+	X!10; log("sent ", 10);
+	X!3; log("sent ", 3)
+  }
+}
+
+defproc source_C (chan!(int<1>) X)
+{
+  //int<4> i;
+  chp {
+	X!1; log("sent dir ", 1);
+	X!0; log("sent dir ", 0);
+	X!0; log("sent dir ", 0);
+	X!1; log("sent dir ", 1)
+  }
+}
+
+defproc sink (chan?(int<4>) X)
+{
+  int<4> v;
+  chp {
+    *[ X?v; log ("Received value: ", v) ]
+  }
+}
+
+defproc test()
+{
+   source_A src_A;
+   source_B src_B;
+   source_C src_C;
+   sink snk;
+   lut l(src_C.X, src_A.X, snk.X);
+}

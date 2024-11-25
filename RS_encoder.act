@@ -1,0 +1,96 @@
+import "buffer.act";
+import "adder.act";
+import "multiply.act";
+
+
+// Reed solomon encoder
+defproc RS_encoder(chan(int<4>)? I; chan(int<4>)! O){ 
+	// Generator polynomial: g(x) = 1x^6 + 10x^5 + 14x^4 + 4x^3 + 6x^2 + 9x + 6 
+	// note these are exponents, so to get the actual coefficients add one
+
+	int<4> c;
+	multiply g[6];
+	adder a[6];
+	buffer<1> node[6];
+	buffer<15> out_reg;
+
+	// store generator polynomials
+	chan(int<4>)! m0;
+	chan(int<4>)! m1;
+	chan(int<4>)! m2;
+	chan(int<4>)! m3;
+	chan(int<4>)! m4;
+	chan(int<4>)! m5;
+
+	// inputs to each multiplier
+	chan(int<4>)! b0;
+	chan(int<4>)! b1;
+	chan(int<4>)! b2;
+	chan(int<4>)! b3;
+	chan(int<4>)! b4;
+	chan(int<4>)! b5;
+
+	// channesl connecting processes
+	chan(int<4>)? a_out;
+	chan(int<4>)! a_in;
+	chan(int<4>)! b_in;
+
+	// connect multipliers to generator polynomial coefficients
+	g[0].A = m0; 
+	g[1].A = m1;
+	g[2].A = m2; 
+	g[3].A = m3;
+	g[4].A = m4;
+	g[5].A = m5;
+
+	// connect adders to multiplier input
+	g[0].B = b0; 
+	g[1].B = b1;
+	g[2].B = b2; 
+	g[3].B = b3;
+	g[4].B = b4;
+	g[5].B = b5;
+
+	// connecting node
+	g[0].C = node[0].L;
+	// connect second adder input
+	a[0].A = node[0].R;
+	a[0].A = g[1].C;
+	a[1].A = g[2].C;
+	a[2].A = g[3].C;
+	a[3].A = g[4].C;
+	a[4].A = g[5].C;
+	a[5].A = a_in;
+
+	// connect adders to buffers
+	a[0].B = g[1].C;
+	a[1].B = node[1].R;
+	a[2].B = node[2].R;
+	a[3].B = node[3].R;
+	a[4].B = node[4].R;
+	a[5].B = node[5].R;
+
+	// connect outputs of adders 
+	a[0].C = node[1].L;
+	a[1].C = node[2].L;
+	a[2].C = node[3].L;
+	a[3].C = node[4].L;
+	a[4].C = node[5].L;
+	a[5].C = a_out;
+
+	out_reg.L = b_in;
+	out_reg.R = O;
+
+	int<4> in;
+	int<4> add_out;
+ 
+	// k was equal to 9
+	chp {
+		c := 0;
+		*[  m0!7; m1!10; m2!7; m3!5; m4!15; m5!11;
+			[ c < 9 ->  I?in; b_in!in; a_in!in; a_out?add_out; b0!add_out; b1!add_out; b2!add_out; b3!add_out; b4!add_out; b5!add_out
+			[] c >= 9 -> a_in!0;  b0!0; b1!0; b2!0; b3!0; b4!0; b5!0; a_out?add_out; b_in!add_out
+			]; c := (c+1) %  15
+		] 
+	}
+}

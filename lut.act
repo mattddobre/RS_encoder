@@ -1,0 +1,48 @@
+// if C = 0 go from symbol to decimal if C = 1 go from decimal to symbol
+defproc lut(chan(int<1>)? C; chan(int<4>)? X; chan(int<4>)! R) {
+	// encoding of GF(2^4) used in the paper 
+	int<4> x;
+	int<1> c;
+	chp {
+		*[X?x; C?c; [ c = 0 ->
+				[ // symbol to binary
+				x = 0 -> R!0 []
+				x = 1 -> R!1 []
+				x = 2 -> R!2 []
+				x = 3 -> R!4 []
+				x = 4 -> R!8 []
+				x = 5 -> R!3 []
+				x = 6 -> R!6 []
+				x = 7 -> R!12 []
+				x = 8 -> R!11 []
+				x = 9 -> R!5 []
+				x = 10 -> R!10 []
+				x = 11 -> R!7 []
+				x = 12 -> R!14 []
+				x = 13 -> R!15 []
+				x = 14 -> R!13 []
+				x = 15 -> R!9
+				]
+				[] //binary to symbol
+				c = 1 -> [
+				x = 0 -> R!0 []
+				x = 1 -> R!1 []
+				x = 2 -> R!2 []
+				x = 4 -> R!3[]
+				x = 8 -> R!4 []
+				x = 3 -> R!5 []
+				x = 6 -> R!6 []
+				x = 12 -> R!7 []
+				x = 11 -> R!8 []
+				x = 5 -> R!9 []
+				x = 10 -> R!10 []
+				x = 7 -> R!11 []
+				x = 14 -> R!12 []
+				x = 15 -> R!13 []
+				x = 13 -> R!14 []
+				x = 9 -> R!15
+				]
+		]]
+	}
+}
+

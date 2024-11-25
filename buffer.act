@@ -1,0 +1,15 @@
+defproc oneplace(chan(int<4>)?L; chan(int<4>)!R){
+	int<4> x;
+	chp {
+		R!0;
+		*[L?x; R!x]
+	}
+}
+
+template<pint N> defproc buffer (chan?(int<4>) L; chan!(int<4>) R)
+{
+  oneplace buf[N];
+  (i:N-1: buf[i].R = buf[i+1].L;)
+  buf[0].L=L;
+  buf[N-1].R=R;
+}

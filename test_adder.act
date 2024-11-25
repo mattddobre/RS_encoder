@@ -1,0 +1,39 @@
+import "adder.act";
+
+defproc source_A (chan!(int<4>) X)
+{
+  //int<4> i;
+  chp {
+	X!1; log("sent ", 1);
+	X!2; log("sent ", 2);
+	X!15; log("sent ", 15);
+	X!5; log("sent ", 5)
+  }
+}
+
+defproc source_B (chan!(int<4>) X)
+{
+  //int<4> i;
+  chp {
+	X!1; log("sent ", 1);
+	X!4; log("sent ", 4);
+	X!10; log("sent ", 10);
+	X!3; log("sent ", 3)
+  }
+}
+
+defproc sink (chan?(int<4>) X)
+{
+  int<4> v;
+  chp {
+    *[ X?v; log ("Received value: ", v) ]
+  }
+}
+
+defproc test()
+{
+   source_A src_A;
+   source_B src_B;
+   sink snk;
+   adder a(src_A.X, src_B.X, snk.X);
+}

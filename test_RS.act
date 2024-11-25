@@ -1,0 +1,37 @@
+import "RS_encoder.act";
+import "source.act";
+
+defproc source (chan!(int<4>) X)
+{
+  // expected output of test case: 
+  // 13 9 15 5 11 9 0 12 0 0 0 0 0 0 0
+  // It works... 
+  chp {
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!10; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0)
+	
+
+  }
+}
+
+defproc sink (chan?(int<4>) X)
+{
+  int<4> v;
+  chp {
+    *[ X?v; log ("Received value: ", v) ]
+  }
+}
+
+defproc test()
+{
+   source_tst src;
+   sink snk;
+   RS_encoder RS(src.X, snk.X);
+}

@@ -1,19 +1,11 @@
 // perform addition over the galois field elements
 import "lut.act";
-defproc adder(chan(int<4>)? A, B; chan(int<4>)! C){
+defproc adder(chan(int<4>)? A, B, Y; chan(int<4>)! C, X; chan(int<1>)! D, S){
 	int<4> a, b, a_code, b_code, ans;
 
-	lut GF2;
-	chan(int<4>)! X;
-	chan(int<4>)? Y;
-	chan(int<1>)! D;
-
-	GF2.X = X;
-	GF2.R = Y;
-	GF2.C = D;
 	// convert symbols to binary, perform bitwise addtion, get symbols back
 	 chp{
-		*[A?a; B?b; X!a; D!0; Y?a_code; X!b; D!0; Y?b_code; X!(a_code^b_code); D!1; Y?ans; C!ans]
+		*[A?a; log("A?"); B?b; log("B?"); S!1; log("s!1"); D!0; X!a; log("X!a"); Y?a_code; log("Y!code"); S!1; log("s!2"); D!0; X!b; log("X!b"); Y?b_code; S!1; log("s!3"); D!1; X!(a_code^b_code); Y?ans; C!ans]
 	 }
 
 }

@@ -4,7 +4,7 @@ defproc source_A (chan!(int<4>) X)
 {
   //int<4> i;
   chp {
-	X!7; log("sent ", 1);
+	X!12; log("sent ", 12);
 	X!2; log("sent ", 2);
 	X!15; log("sent ", 15);
 	X!5; log("sent ", 5)
@@ -26,7 +26,7 @@ defproc source_C (chan!(int<1>) X)
 {
   //int<4> i;
   chp {
-	X!1; log("sent dir ", 1);
+	X!0; log("sent dir ", 0);
 	X!0; log("sent dir ", 0);
 	X!0; log("sent dir ", 0);
 	X!1; log("sent dir ", 1)
@@ -41,11 +41,53 @@ defproc sink (chan?(int<4>) X)
   }
 }
 
-defproc test()
+defproc test_lut()
 {
    source_A src_A;
-   source_B src_B;
    source_C src_C;
    sink snk;
    lut l(src_C.X, src_A.X, snk.X);
+}
+
+defproc test_lutx6()
+{
+   source_B src_A0;
+   source_C src_C0;
+   sink snk0;
+
+   source_A src_A1;
+   source_C src_C1;
+   sink snk1;
+
+   source_A src_A2;
+   source_C src_C2;
+   sink snk2;
+
+   source_B src_A3;
+   source_C src_C3;
+   sink snk3;
+
+   source_B src_A4;
+   source_C src_C4;
+   sink snk4;
+
+   source_B src_A5;
+   source_C src_C5;
+   sink snk5;
+
+   lutx6 l(src_C0.X, src_C1.X, src_C2.X, src_C3.X, src_C4.X, src_C5.X, 
+   src_A0.X, src_A1.X, src_A2.X, src_A3.X,  src_A4.X, src_A5.X,  
+   snk0.X, snk1.X, snk2.X, snk3.X, snk4.X, snk5.X);
+}
+
+defproc test_lutx1()
+{
+   source_A src_A0;
+   source_C src_C0;
+   sink snk0;
+
+
+   lutx1 l(src_C0.X, 
+   src_A0.X, 
+   snk0.X);
 }

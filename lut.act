@@ -46,3 +46,87 @@ defproc lut(chan(int<1>)? C; chan(int<4>)? X; chan(int<4>)! R) {
 	}
 }
 
+defproc lutx1(chan(int<1>)? C0; chan(int<1>)? S0; chan(int<4>)? X0; chan(int<4>)! R0){
+	lut GF2;
+	int<1> c0; 
+	int<1> s0;
+	int<4> x0;
+	int<4> out0;
+
+	chan(int<4>)! X;
+	chan(int<4>)? Y;
+	chan(int<1>)! C;
+
+	GF2.X = X;
+	GF2.R = Y;
+	GF2.C = C;
+
+	chp {
+		*[log("rec"); S0?s0; log("S0"); C0?c0; X0?x0; log("rec");
+		[
+ 			s0 = 1 -> log("selected"); [
+				c0 = 0 -> X!x0; C!0; Y?out0; R0!out0 [] 
+				c0 = 1 -> X!x0; C!1; Y?out0; R0!out0 
+			]
+		];log("out of guard")
+
+		
+		]
+	}
+}
+
+// look up table with 6 input channels
+defproc lutx6(chan(int<1>)? C0, C1, C2, C3, C4, C5; chan(int<1>)? S0, S1, S2, S3, S4, S5; chan(int<4>)? X0, X1, X2, X3, X4, X5; chan(int<4>)! R0, R1, R2, R3, R4, R5){
+	lut GF2;
+	int<1> c0, c1, c2, c3, c4, c5; 
+	int<4> x0, x1, x2, x3, x4, x5;
+	int<4> s0, s1, s2, s3, s4, s5;
+	int<4> out0, out1, out2, out3, out4, out5;
+
+	chan(int<4>)! X;
+	chan(int<4>)? Y;
+	chan(int<1>)! C;
+
+	GF2.X = X;
+	GF2.R = Y;
+	GF2.C = C;
+
+	chp {
+		*[S0?s0; S1?s1; S2?s2; S3?s3; S4?s4; S5?s5; 
+		C0?c0; C1?c1; C2?c2; C3?c3; C4?c4; C5?c5; 
+		X0?x0; X1?x1; X2?x2; X3?x3; X4?x4; X5?x5; 
+		[  s0 = 1 -> log("s0"); [
+				c0 = 0 -> X!x0; C!0; Y?out0; R0!out0 [] 
+				c0 = 1 -> X!x0; C!1; Y?out0; R0!out0 
+			] []
+
+			s1 = 1 -> log("s1"); [
+				c1 = 0 -> X!x1; C!0; Y?out1; R1!out1 []
+				c1 = 1 -> X!x1; C!1; Y?out1; R1!out1 
+			] []
+
+			s2 = 1 -> log("s2"); [
+				c2 = 0 -> X!x2; C!0; Y?out2; R2!out2 []
+				c2 = 1-> X!x2; C!1; Y?out2; R2!out2 
+			] []
+
+			s3 = 1 -> log("s3"); [
+				c3 = 0 -> X!x3; C!0; Y?out3; R3!out3 []
+				c3 = 1-> X!x3; C!1; Y?out3; R3!out3 
+			] []
+
+			s4 = 1 -> log("s4"); [
+				c4 = 0 -> X!x4; C!0; Y?out4; R4!out4 []
+				c4 = 1 -> X!x4; C!1; Y?out4; R4!out4 
+			] []
+
+			s5 = 1 -> log("s5"); [
+				c5 = 0 -> X!x5; C!0; Y?out5; R5!out5 [] 
+				c5 = 1 -> X!x5; C!1; Y?out5; R5!out5 
+			]	
+		] 
+
+		
+		]
+	}
+}

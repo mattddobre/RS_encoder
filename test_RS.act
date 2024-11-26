@@ -9,12 +9,12 @@ defproc source (chan!(int<4>) X)
   chp {
 	X!0; log("sent ", 0);
 	X!0; log("sent ", 0);
-	X!10; log("sent ", 0);
 	X!0; log("sent ", 0);
 	X!0; log("sent ", 0);
 	X!0; log("sent ", 0);
 	X!0; log("sent ", 0);
 	X!0; log("sent ", 0);
+	X!12; log("sent ", 0);
 	X!0; log("sent ", 0)
 	
 
@@ -31,7 +31,7 @@ defproc sink (chan?(int<4>) X)
 
 defproc test()
 {
-   source_tst src;
+   source src;
    sink snk;
    RS_encoder RS(src.X, snk.X);
 }

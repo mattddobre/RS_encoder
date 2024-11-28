@@ -15,6 +15,13 @@ defproc source (chan!(int<4>) X)
 	X!0; log("sent ", 0);
 	X!0; log("sent ", 0);
 	X!12; log("sent ", 0);
+	X!11; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
+	X!0; log("sent ", 0);
 	X!0; log("sent ", 0)
 	
 

@@ -10,7 +10,7 @@ defproc RS_encoder(chan(int<4>)? I; chan(int<4>)! O){
 	// note these are exponents, so to get the actual coefficients add one
 
 	int<4> c;
-	lutx6 lut;
+	lutx6 l;
 	multiply g[6];
 	adder a[6];
 	buffer<1> node[6];
@@ -37,34 +37,20 @@ defproc RS_encoder(chan(int<4>)? I; chan(int<4>)! O){
 	chan(int<4>)! a_in;
 	chan(int<4>)! b_in;
 
-	// connect adders to lut
-	a[0].D = lut.C0;
-	a[1].D = lut.C1;
-	a[2].D = lut.C2;
-	a[3].D = lut.C3;
-	a[4].D = lut.C4;
-	a[5].D = lut.C5;
+	// connect multipliers to lut
+	g[0].Y = l.R0; 
+	g[1].Y = l.R1;
+	g[2].Y = l.R2; 
+	g[3].Y = l.R3;
+	g[4].Y = l.R4;
+	g[5].Y = l.R5;
 
-	a[0].X = lut.X0; 
-	a[1].X = lut.X1;
-	a[2].X = lut.X2;
-	a[3].X = lut.X3;
-	a[4].X = lut.X4;
-	a[5].X = lut.X5;
-
-	a[0].Y = lut.R0; 
-	a[1].Y = lut.R1;
-	a[2].Y = lut.R2;
-	a[3].Y = lut.R3;
-	a[4].Y = lut.R4;
-	a[5].Y = lut.R5;
-
-	a[0].S = lut.S0; 
-	a[1].S = lut.S1;
-	a[2].S = lut.S2;
-	a[3].S = lut.S3;
-	a[4].S = lut.S4;
-	a[5].S = lut.S5;
+	g[0].X = l.X0; 
+	g[1].X = l.X1;
+	g[2].X = l.X2; 
+	g[3].X = l.X3;
+	g[4].X = l.X4;
+	g[5].X = l.X5;
 
 	// connect multipliers to generator polynomial coefficients
 	g[0].A = m0; 

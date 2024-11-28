@@ -1,8 +1,8 @@
 //import "lut.act";
-defproc multiply(chan(int<4>)? A, B; chan(int<4>)! C){ 
-	int<4> a, b, c; 
+defproc multiply(chan(int<4>)? A, B, Y; chan(int<4>)! C, X){ 
+	int<4> a, b, ans;
 
 	chp{
-		*[A?a; B?b; [a = 0 | b = 0 -> C!0 [] else -> C!(((a - 1 + b - 1) % 15) + 1)]]
+		*[A?a; log("1"); B?b; [a = 0 | b = 0 -> log("2"); C!0 [] else -> log("3"); X!((a - 1 + b - 1) % 15 + 1); log("4"); Y?ans; C!ans]]
 	}
 }

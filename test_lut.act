@@ -44,42 +44,35 @@ defproc sink (chan?(int<4>) X)
 defproc test_lut()
 {
    source_A src_A;
-   source_C src_C;
    sink snk;
-   lut l(src_C.X, src_A.X, snk.X);
+   lut l(src_A.X, snk.X);
 }
 
-defproc test_lutx6()
+defproc testx6()
 {
    source_B src_A0;
-   source_C src_C0;
    sink snk0;
 
    source_A src_A1;
-   source_C src_C1;
    sink snk1;
 
    source_A src_A2;
-   source_C src_C2;
    sink snk2;
 
    source_B src_A3;
-   source_C src_C3;
    sink snk3;
 
    source_B src_A4;
-   source_C src_C4;
    sink snk4;
 
    source_B src_A5;
-   source_C src_C5;
    sink snk5;
 
-   lutx6 l(src_C0.X, src_C1.X, src_C2.X, src_C3.X, src_C4.X, src_C5.X, 
-   src_A0.X, src_A1.X, src_A2.X, src_A3.X,  src_A4.X, src_A5.X,  
+   lutx6 l(src_A0.X, src_A1.X, src_A2.X, src_A3.X,  src_A4.X, src_A5.X,  
    snk0.X, snk1.X, snk2.X, snk3.X, snk4.X, snk5.X);
 }
 
+/*
 defproc test_lutx1()
 {
    source_A src_A0;
@@ -91,3 +84,4 @@ defproc test_lutx1()
    src_A0.X, 
    snk0.X);
 }
+*/

@@ -1,5 +1,5 @@
 import "multiply.act";
-
+import "lut.act";
 defproc source (chan!(int<4>) X)
 {
   //int<4> i;
@@ -7,8 +7,7 @@ defproc source (chan!(int<4>) X)
 	X!1; log("sent ", 1);
 	X!2; log("sent ", 2);
 	X!15; log("sent ", 15);
-	X!5; log("sent ", 5);
-	X!0; log("sent", 0)
+	X!5; log("sent ", 5)
   }
 }
 
@@ -22,8 +21,35 @@ defproc sink (chan?(int<4>) X)
 
 defproc test()
 {
-   source src_A;
-   source src_B;
-   sink snk;
-   multiply m(src_A.X, src_B.X, snk.X);
+   lutx6 l;
+   source src_A0;
+   source src_B0;
+   sink snk0;
+
+   source src_A1;
+   source src_B1;
+   sink snk1;
+
+   source src_A2;
+   source src_B2;
+   sink snk2;
+
+   source src_A3;
+   source src_B3;
+   sink snk3;
+
+   source src_A4;
+   source src_B4;
+   sink snk4;
+
+   source src_A5;
+   source src_B5;
+   sink snk5;
+
+   multiply m0(src_A0.X, src_B0.X, l.R0, snk0.X, l.X0);
+   multiply m1(src_A1.X, src_B1.X, l.R1, snk1.X, l.X1);
+   multiply m2(src_A2.X, src_B2.X, l.R2, snk2.X, l.X2);
+   multiply m3(src_A3.X, src_B3.X, l.R3, snk3.X, l.X3);
+   multiply m4(src_A4.X, src_B4.X, l.R4, snk4.X, l.X4);
+   multiply m5(src_A5.X, src_B5.X, l.R5, snk5.X, l.X5);
 }

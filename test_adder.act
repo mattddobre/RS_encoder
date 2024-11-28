@@ -1,5 +1,4 @@
 import "adder.act";
-import "lut.act";
 
 defproc source_A (chan!(int<4>) X)
 {
@@ -31,56 +30,10 @@ defproc sink (chan?(int<4>) X)
   }
 }
 
-defproc testx6()
+defproc test()
 {
-   source_A src_A0;
-   source_B src_B0;
-   sink snk0; 
-
-   source_A src_A1;
-   source_B src_B1;
-   sink snk1; 
-
-   source_A src_A2;
-   source_B src_B2;
-   sink snk2; 
-
-   source_A src_A3;
-   source_B src_B3;
-   sink snk3; 
-
-   source_A src_A4;
-   source_B src_B4;
-   sink snk4; 
-
-   source_A src_A5;
-   source_B src_B5;
-   sink snk5; 
-   lutx6 l;
-
-   adder a0(src_A0.X, src_B0.X, l.R0, snk0.X, l.X0, l.C0, l.S0);
-   adder a1(src_A1.X, src_B1.X, l.R1, snk1.X, l.X1, l.C1, l.S1);
-   adder a2(src_A2.X, src_B2.X, l.R2, snk2.X, l.X2, l.C2, l.S2);
-   adder a3(src_A3.X, src_B3.X, l.R3, snk3.X, l.X3, l.C3, l.S3);
-   adder a4(src_A4.X, src_B4.X, l.R4, snk4.X, l.X4, l.C4, l.S4);
-   adder a5(src_A5.X, src_B5.X, l.R5, snk5.X, l.X5, l.C5, l.S5);
-}
-
-defproc testx1()
-{
-   source_A src_A0;
-   source_B src_B0;
-   sink snk0; 
-
-   lutx1 l;
-
-   adder a0(src_A0.X, src_B0.X, l.R0, snk0.X, l.X0, l.C0, l.S0);
-   /*
-   a0.A = src_A0.X;
-   a0.B = src_B0.X;
-   a0.Y = l.R0;
-   a0.C = snk0.X; 
-   a0.X = l.X0; 
-   a0.D = l.C0;
-   */
+   source_A src_A;
+   source_B src_B;
+   sink snk;
+   adder a(src_A.X, src_B.X, snk.X);
 }
